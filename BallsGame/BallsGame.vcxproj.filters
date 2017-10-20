@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="..\Balls2\InGameMenu.h" />
+    <ClInclude Include="GameOver.h" />
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelBrick.h" />
+    <ClInclude Include="LevelReader.h" />
+    <ClInclude Include="Racket.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="..\Balls2\InGameMenu.cpp" />
+    <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="LevelReader.cpp" />
+    <ClCompile Include="Racket.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{cdf751f5-0ee2-40c6-9586-a7d11401a0be}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Ball.tga">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="Resources\brick1.tga">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

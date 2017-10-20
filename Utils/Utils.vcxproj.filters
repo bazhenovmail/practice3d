@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="ComPtr.h" />
+    <ClInclude Include="fileutil.h" />
+    <ClInclude Include="Vector.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="FpsMeter.h" />
+    <ClInclude Include="VectorToMatrix.h" />
+    <ClInclude Include="Position.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="fileutil.cpp" />
+    <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="FpsMeter.cpp" />
+    <ClCompile Include="VectorToMatrix.cpp" />
+    <ClCompile Include="Position.cpp" />
+  </ItemGroup>
+</Project>

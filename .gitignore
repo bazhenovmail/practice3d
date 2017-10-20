@@ -1,0 +1,7 @@
+*.VC.db
+*.VC.opendb
+.vs/*
+*.lastbuildstate
+*.tlog
+*.idb
+*.cso

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D3D.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectColor.cpp" />
+    <ClCompile Include="EffectTexture.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="ColorMesh.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="TextureMesh.cpp" />
+    <ClCompile Include="TextMesh.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="EffectText.cpp" />
+    <ClCompile Include="UICamera.cpp" />
+    <ClCompile Include="ProjectionCamera.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ObjFile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D3D.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectColor.h" />
+    <ClInclude Include="EffectTexture.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="ColorMesh.h" />
+    <ClInclude Include="TextureMesh.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="TextMesh.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="EffectText.h" />
+    <ClInclude Include="UICamera.h" />
+    <ClInclude Include="ProjectionCamera.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ObjFile.h" />
+    <ClInclude Include="MappedResource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{e0e33136-ce1c-41ec-a531-e870e4e6b027}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{0023c0bc-cd66-404a-924e-e3e748669eaf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shaders\ColorPS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\ColorVS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\TexturePS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\TextureVS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\TextPS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Shaders\TextVS.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Font.psd">
+      <Filter>Resources</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\font.tga">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\font.txt">
+      <Filter>Resources</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

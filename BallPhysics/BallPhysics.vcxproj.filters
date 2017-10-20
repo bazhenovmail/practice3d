@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{d4d7fc6c-e7f3-422a-89cc-43a72f244e70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{7f1a7fda-6e5b-42d5-8f44-2d13ed9faef5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collisions">
+      <UniqueIdentifier>{548f131b-6c76-4057-baab-c744f736ff0e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="World.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\ContinuousCollisions.h">
+      <Filter>Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions\ShapeContinuousCollision.h">
+      <Filter>Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Circle.h">
+      <Filter>Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle.h">
+      <Filter>Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapelessObject.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Body.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="Intersections\RectangleIntersection.h" />
+    <ClInclude Include="Collisions\CircleMovementRectangle.h" />
+    <ClInclude Include="Intersections\BoundingVolumes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="World.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\ContinuousCollisions.cpp">
+      <Filter>Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions\ShapeContinuousCollision.cpp">
+      <Filter>Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Circle.cpp">
+      <Filter>Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle.cpp">
+      <Filter>Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Body.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="Intersections\RectangleIntersection.cpp" />
+    <ClCompile Include="Collisions\CircleMovementRectangle.cpp" />
+    <ClCompile Include="Intersections\BoundingVolumes.cpp" />
+  </ItemGroup>
+</Project>
