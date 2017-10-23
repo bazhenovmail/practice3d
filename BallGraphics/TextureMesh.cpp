@@ -60,7 +60,7 @@ void TextureMesh::initialize_buffers_() noexcept
 
     // Now create the vertex buffer.
     ID3D11Buffer* temp_vert_buf;
-    result = d3d_.get_device()->CreateBuffer(&vertex_buffer_desc, &vertex_data, &temp_vert_buf);
+    result = d3d_.getDevice()->CreateBuffer(&vertex_buffer_desc, &vertex_data, &temp_vert_buf);
     assert(result == S_OK);
     m_vertex_buffer = temp_vert_buf;
 
@@ -79,7 +79,7 @@ void TextureMesh::initialize_buffers_() noexcept
 
     // Create the index buffer.
     ID3D11Buffer* temp_ind_buf;
-    result = d3d_.get_device()->CreateBuffer(&index_buffer_desc, &index_data, &temp_ind_buf);
+    result = d3d_.getDevice()->CreateBuffer(&index_buffer_desc, &index_data, &temp_ind_buf);
     assert(result == S_OK);
     m_index_buffer = temp_ind_buf;
 }
@@ -157,15 +157,15 @@ void TextureMesh::render_(const EffectTexture::MatrixBufferType& params, const E
     // Set the vertex buffer to active in the input assembler so it can be rendered.
     assert(m_vertex_buffer != nullptr);
     ID3D11Buffer* tmp_vert_buf = m_vertex_buffer;
-    d3d_.get_device_context()->IASetVertexBuffers(0, 1, &tmp_vert_buf, &stride, &offset);
+    d3d_.getDeviceContext()->IASetVertexBuffers(0, 1, &tmp_vert_buf, &stride, &offset);
 
     // Set the index buffer to active in the input assembler so it can be rendered.
     assert(m_index_buffer != nullptr);
 
-    d3d_.get_device_context()->IASetIndexBuffer((ID3D11Buffer*)m_index_buffer, DXGI_FORMAT_R32_UINT, 0);
+    d3d_.getDeviceContext()->IASetIndexBuffer((ID3D11Buffer*)m_index_buffer, DXGI_FORMAT_R32_UINT, 0);
 
     // Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
-    d3d_.get_device_context()->IASetPrimitiveTopology(topology_);
+    d3d_.getDeviceContext()->IASetPrimitiveTopology(topology_);
 
     m_effect_texture.render(get_index_count(), params, lightParams, m_texture.GetTexture());
 }

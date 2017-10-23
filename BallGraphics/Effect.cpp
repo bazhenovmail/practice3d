@@ -21,7 +21,7 @@ void Effect::initialize(const D3D& d3d) noexcept
     assert(ok == true);
 
     ID3D11VertexShader* tmp_vert_sh;
-    HRESULT hresult = d3d_->get_device()->CreateVertexShader(
+    HRESULT hresult = d3d_->getDevice()->CreateVertexShader(
         vs_data.data(),
         vs_data.size(),
         nullptr,
@@ -31,7 +31,7 @@ void Effect::initialize(const D3D& d3d) noexcept
     m_vertex_shader = tmp_vert_sh;
 
     ID3D11PixelShader* tmp_pix_sh;
-    hresult = d3d_->get_device()->CreatePixelShader(
+    hresult = d3d_->getDevice()->CreatePixelShader(
         ps_data.data(),
         ps_data.size(),
         nullptr,
@@ -45,7 +45,7 @@ void Effect::initialize(const D3D& d3d) noexcept
 
 ComPtr<ID3D11Buffer> Effect::create_buffer(const D3D11_BUFFER_DESC & desc){
     ID3D11Buffer* tmp_ptr;
-    HRESULT result = d3d_->get_device()->CreateBuffer(&desc, NULL, &tmp_ptr);
+    HRESULT result = d3d_->getDevice()->CreateBuffer(&desc, NULL, &tmp_ptr);
     assert(result == S_OK);
     assert(tmp_ptr != nullptr);
     return ComPtr<ID3D11Buffer>(tmp_ptr);
@@ -53,19 +53,19 @@ ComPtr<ID3D11Buffer> Effect::create_buffer(const D3D11_BUFFER_DESC & desc){
 
 ComPtr<ID3D11SamplerState> Effect::create_sampler_state(const D3D11_SAMPLER_DESC & desc){
     ID3D11SamplerState* tmp_ptr;
-    HRESULT result = d3d_->get_device()->CreateSamplerState(&desc, &tmp_ptr);
+    HRESULT result = d3d_->getDevice()->CreateSamplerState(&desc, &tmp_ptr);
     assert(result == S_OK);
     assert(tmp_ptr != nullptr);
     return ComPtr<ID3D11SamplerState>(tmp_ptr);
 }
 
 void Effect::finalize_render(UINT index_count){
-    d3d_->get_device_context()->IASetInputLayout((ID3D11InputLayout*)m_layout);
+    d3d_->getDeviceContext()->IASetInputLayout((ID3D11InputLayout*)m_layout);
 
-    d3d_->get_device_context()->VSSetShader((ID3D11VertexShader*)m_vertex_shader, NULL, 0);
-    d3d_->get_device_context()->PSSetShader((ID3D11PixelShader*)m_pixel_shader, NULL, 0);
+    d3d_->getDeviceContext()->VSSetShader((ID3D11VertexShader*)m_vertex_shader, NULL, 0);
+    d3d_->getDeviceContext()->PSSetShader((ID3D11PixelShader*)m_pixel_shader, NULL, 0);
 
-    d3d_->get_device_context()->DrawIndexed(index_count, 0, 0);
+    d3d_->getDeviceContext()->DrawIndexed(index_count, 0, 0);
 }
 
 void Effect::shutdown(){}
@@ -73,7 +73,7 @@ void Effect::shutdown(){}
 void Effect::create_input_layout(const std::vector<char>& vs_data){
     auto polygonLayout = input_layout();
     ID3D11InputLayout* tmp_layout;
-    HRESULT result = d3d_->get_device()->CreateInputLayout(polygonLayout.data(), polygonLayout.size(), vs_data.data(),
+    HRESULT result = d3d_->getDevice()->CreateInputLayout(polygonLayout.data(), polygonLayout.size(), vs_data.data(),
                                                vs_data.size(), &tmp_layout);
     assert(result == S_OK);
     m_layout = tmp_layout;

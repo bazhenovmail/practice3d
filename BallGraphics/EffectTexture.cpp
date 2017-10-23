@@ -66,28 +66,28 @@ void EffectTexture::initialize(const D3D& d3d) noexcept
 void EffectTexture::setParameters(const MatrixBufferType & params, const LightBufferType& lightParams, ID3D11ShaderResourceView * texture)
 {
 	{
-		MappedResource<MatrixBufferType> mapped(d3d_->get_device_context(), matrixBuffer_);
+		MappedResource<MatrixBufferType> mapped(d3d_->getDeviceContext(), matrixBuffer_);
 		mapped->world = XMMatrixTranspose(params.world);
 		mapped->view = XMMatrixTranspose(params.view);
 		mapped->projection = XMMatrixTranspose(params.projection);
 	}
 
 	{
-		MappedResource<LightBufferType> mapped(d3d_->get_device_context(), lightBuffer_);
+		MappedResource<LightBufferType> mapped(d3d_->getDeviceContext(), lightBuffer_);
 		*mapped = lightParams;
 	}
 
 	{
 		std::array<ID3D11Buffer *const, 1> buffers{ matrixBuffer_ };
-		d3d_->get_device_context()->VSSetConstantBuffers(0, buffers.size(), buffers.data());
+		d3d_->getDeviceContext()->VSSetConstantBuffers(0, buffers.size(), buffers.data());
 	}
 
 	{
 		std::array<ID3D11Buffer *const, 1> buffers{ lightBuffer_ };
-		d3d_->get_device_context()->PSSetConstantBuffers(0, buffers.size(), buffers.data());
+		d3d_->getDeviceContext()->PSSetConstantBuffers(0, buffers.size(), buffers.data());
 	}
 
-	d3d_->get_device_context()->PSSetShaderResources(0, 1, &texture);
+	d3d_->getDeviceContext()->PSSetShaderResources(0, 1, &texture);
 }
 
 void EffectTexture::render(UINT index_count, const MatrixBufferType& params, const LightBufferType& lightParams, ID3D11ShaderResourceView* texture)

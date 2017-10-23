@@ -16,12 +16,12 @@ void Graphics::initialize(int screenWidth,
     screenWidth_ = screenWidth;
     screenHeight_ = screenHeight;
     d3d_.initialize(screenWidth, screenHeight, vsync, hwnd, fullScreen);
-    d3d_.turn_on_alpha_blending();
+    d3d_.turnOnAlphaBlending();
 }
 
 void Graphics::frame()
 {
-    d3d_.begin_scene();
+    d3d_.beginScene();
 
 	for (auto& camera : cameras_)
 	{
@@ -42,7 +42,7 @@ void Graphics::frame()
 		
 	}
 
-    d3d_.end_scene();
+    d3d_.endScene();
 }
 
 void Graphics::shutdown()
@@ -57,7 +57,7 @@ void Graphics::shutdown()
 Texture Graphics::createTexture(const std::string & fileName) noexcept
 {
 	Texture result;
-	bool init = result.Initialize(d3d_.get_device(), d3d_.get_device_context(), fileName.c_str());
+	bool init = result.Initialize(d3d_.getDevice(), d3d_.getDeviceContext(), fileName.c_str());
 	assert(init);
 	return result;
 }

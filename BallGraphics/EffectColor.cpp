@@ -37,7 +37,7 @@ void EffectColor::setParameters(const MatrixBufferType& params)
     D3D11_MAPPED_SUBRESOURCE mapped_resource;
 
 	{
-		MappedResource<MatrixBufferType> mapped(d3d_->get_device_context(), matrixBuffer_);
+		MappedResource<MatrixBufferType> mapped(d3d_->getDeviceContext(), matrixBuffer_);
 		mapped->world = XMMatrixTranspose(params.world);
 		mapped->view = XMMatrixTranspose(params.view);
 		mapped->projection = XMMatrixTranspose(params.projection);
@@ -45,7 +45,7 @@ void EffectColor::setParameters(const MatrixBufferType& params)
 
     unsigned buffer_index = 0;
     ID3D11Buffer *const mb = matrixBuffer_;
-	d3d_->get_device_context()->VSSetConstantBuffers(buffer_index, 1, &mb);
+	d3d_->getDeviceContext()->VSSetConstantBuffers(buffer_index, 1, &mb);
 }
 
 void EffectColor::render(UINT index_count, const MatrixBufferType& params)

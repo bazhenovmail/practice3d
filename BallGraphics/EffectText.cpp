@@ -67,30 +67,30 @@ void EffectText::initialize(const D3D& d3d) noexcept
 void EffectText::setParameters(const MatrixBufferType& params, ID3D11ShaderResourceView* texture, const DirectX::XMVECTOR& color)
 {
 	{
-		MappedResource<MatrixBufferType> mapped(d3d_->get_device_context(), matrixBuffer_);
+		MappedResource<MatrixBufferType> mapped(d3d_->getDeviceContext(), matrixBuffer_);
 		mapped->world = XMMatrixTranspose(params.world);
 		mapped->view = XMMatrixTranspose(params.view);
 		mapped->projection = XMMatrixTranspose(params.projection);
 	}
 
 	{
-		MappedResource<ColorBufferType> mapped(d3d_->get_device_context(), colorBuffer_);
+		MappedResource<ColorBufferType> mapped(d3d_->getDeviceContext(), colorBuffer_);
 		mapped->color = color;
 	}
 
     {
         unsigned buffer_index = 0;
         ID3D11Buffer *const mb = matrixBuffer_;
-        d3d_->get_device_context()->VSSetConstantBuffers(buffer_index, 1, &mb);
+        d3d_->getDeviceContext()->VSSetConstantBuffers(buffer_index, 1, &mb);
     }
 
     {
         unsigned buffer_index = 0;
         ID3D11Buffer *const buff = colorBuffer_;
-        d3d_->get_device_context()->PSSetConstantBuffers(buffer_index, 1, &buff);
+        d3d_->getDeviceContext()->PSSetConstantBuffers(buffer_index, 1, &buff);
     }
 
-    d3d_->get_device_context()->PSSetShaderResources(0, 1, &texture);
+    d3d_->getDeviceContext()->PSSetShaderResources(0, 1, &texture);
 }
 
 void EffectText::render(UINT index_count, const MatrixBufferType& params, ID3D11ShaderResourceView* texture, const DirectX::XMVECTOR& color)
