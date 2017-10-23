@@ -15,4 +15,4 @@ const DirectX::XMMATRIX & Camera::getProjectionMatrix() const noexcept
 	return projectionMatrix_;
 }
 
-}//namespace BallGraphics
+} //namespace

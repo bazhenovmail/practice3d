@@ -39,7 +39,7 @@ private:
 
 private:
     std::vector<unsigned char> m_targa_data;
-    BallUtils::ComPtr<ID3D11Texture2D> m_texture = nullptr;
+    BallUtils::ComPtr<ID3D11Texture2D> texture_ = nullptr;
     BallUtils::ComPtr<ID3D11ShaderResourceView> m_texture_view = nullptr;
 
 };

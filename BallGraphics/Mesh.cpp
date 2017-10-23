@@ -3,19 +3,25 @@
 namespace BallGraphics
 {
 
-Mesh::Mesh(Mesh&& arg) noexcept: d3d_{ arg.d3d_ }
+Mesh::Mesh( const D3D& d3d ) noexcept:
+d3d_{ d3d }
 {
-	m_vertex_buffer = std::move(arg.m_vertex_buffer);
-	m_index_buffer = std::move(arg.m_index_buffer);
-	arg.m_vertex_buffer = nullptr;
-	arg.m_index_buffer = nullptr;
+};
+
+Mesh::Mesh( Mesh&& arg ) noexcept:
+d3d_{ arg.d3d_ }
+{
+    vertexBuffer_ = std::move( arg.vertexBuffer_ );
+    indexBuffer_ = std::move( arg.indexBuffer_ );
+    arg.vertexBuffer_ = nullptr;
+    arg.indexBuffer_ = nullptr;
 }
 
-Mesh& Mesh::operator=(Mesh && arg) noexcept
+Mesh& Mesh::operator=( Mesh && arg ) noexcept
 {
-	std::swap(m_vertex_buffer, arg.m_vertex_buffer);
-	std::swap(m_index_buffer, arg.m_index_buffer);
-	return *this;
+    std::swap( vertexBuffer_, arg.vertexBuffer_ );
+    std::swap( indexBuffer_, arg.indexBuffer_ );
+    return *this;
 }
 
-}//namespace BallGraphics
+} //namespace

@@ -17,4 +17,4 @@ protected:
 	DirectX::XMMATRIX projectionMatrix_;
 };
 
-}//namespace BallGraphics
+} //namespace

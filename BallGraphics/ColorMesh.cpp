@@ -13,7 +13,7 @@ void ColorMesh::render(const GetWorldFunc& worldFunc, const Camera* camera) noex
 }
 
 ColorMesh::ColorMesh(ColorMesh && arg) :
-    Mesh(std::forward<Mesh>(arg)), m_effect_color{arg.m_effect_color}
+    Mesh(std::forward<Mesh>(arg)), effectColor_{arg.effectColor_}
 {
 	vertices_ = std::move(arg.vertices_);
     arg.vertices_.clear();
@@ -26,7 +26,7 @@ ColorMesh & ColorMesh::operator=(ColorMesh && arg)
     return *this;
 }
 
-void ColorMesh::initialize_buffers_() noexcept
+void ColorMesh::initializeBuffers_() noexcept
 {
     std::vector<VertexType> vertices;// (m_vertices.size());
     std::vector<unsigned long> indices;// (m_vertices.size());
@@ -60,7 +60,7 @@ void ColorMesh::initialize_buffers_() noexcept
     ID3D11Buffer* temp_vert_buf;
     result = d3d_.getDevice()->CreateBuffer(&vertex_buffer_desc, &vertex_data, &temp_vert_buf);
     assert(result == S_OK);
-    m_vertex_buffer = temp_vert_buf;
+    vertexBuffer_ = temp_vert_buf;
 
     // Set up the description of the static index buffer.
     index_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
@@ -79,7 +79,7 @@ void ColorMesh::initialize_buffers_() noexcept
     ID3D11Buffer* temp_ind_buf;
     result = d3d_.getDevice()->CreateBuffer(&index_buffer_desc, &index_data, &temp_ind_buf);
     assert(result == S_OK);
-    m_index_buffer = temp_ind_buf;
+    indexBuffer_ = temp_ind_buf;
 }
 
 UINT ColorMesh::get_index_count()
@@ -96,7 +96,7 @@ void ColorMesh::load(float width, float height, float depth, float ir, float ig,
     //horizontal axe directed up -1 to 1, vertical axe directed right -1 to 1, depth directed in depth 0 to 1
 	vertices_.emplace_back(+width / 2, +height / 2, depth, ir, ig, ib, ia);
 	topology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
-	initialize_buffers_();
+	initializeBuffers_();
 }
 
 void ColorMesh::load(const Vector & cPoint, const std::vector<Vector>& points, float depth, float ir, float ig, float ib, float ia)
@@ -109,7 +109,7 @@ void ColorMesh::load(const Vector & cPoint, const std::vector<Vector>& points, f
 		vertices_.emplace_back(points[j].x, points[j].y, depth, ir, ig, ib, ia);
 	}	
 	topology_ = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-	initialize_buffers_();
+	initializeBuffers_();
 }
 
 void ColorMesh::render_(const EffectColor::MatrixBufferType& params)
@@ -122,20 +122,20 @@ void ColorMesh::render_(const EffectColor::MatrixBufferType& params)
     offset = 0;
 
     // Set the vertex buffer to active in the input assembler so it can be rendered.
-    assert(m_vertex_buffer != nullptr);
-    ID3D11Buffer* tmp_vert_buf = m_vertex_buffer;
+    assert(vertexBuffer_ != nullptr);
+    ID3D11Buffer* tmp_vert_buf = vertexBuffer_;
 	d3d_.getDeviceContext()->IASetVertexBuffers(0, 1, &tmp_vert_buf, &stride, &offset);
 
     // Set the index buffer to active in the input assembler so it can be rendered.
-    assert(m_index_buffer != nullptr);
+    assert(indexBuffer_ != nullptr);
 
-	d3d_.getDeviceContext()->IASetIndexBuffer((ID3D11Buffer*)m_index_buffer, DXGI_FORMAT_R32_UINT, 0);
+	d3d_.getDeviceContext()->IASetIndexBuffer((ID3D11Buffer*)indexBuffer_, DXGI_FORMAT_R32_UINT, 0);
 
     // Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	d3d_.getDeviceContext()->IASetPrimitiveTopology(topology_);
 
 
-    m_effect_color.render(get_index_count(), params);
+    effectColor_.render(get_index_count(), params);
 }
 
 ColorMesh::ModelType::ModelType(float ix, float iy, float iz, float ir, float ig, float ib, float ia)

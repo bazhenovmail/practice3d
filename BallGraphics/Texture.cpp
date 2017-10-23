@@ -48,12 +48,12 @@ bool Texture::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContex
     texture_desc.CPUAccessFlags = 0;
     texture_desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
-    m_texture = create_texture_2d(device, texture_desc);
+    texture_ = create_texture_2d(device, texture_desc);
 
     // Set the row pitch of the targa image data.
     rowPitch = (width * 4) * sizeof(unsigned char);
     // Copy the targa image data into the texture.
-    deviceContext->UpdateSubresource(m_texture, 0, NULL, m_targa_data.data(), rowPitch, 0);
+    deviceContext->UpdateSubresource(texture_, 0, NULL, m_targa_data.data(), rowPitch, 0);
     // Setup the shader resource view description.
     srv_desc.Format = texture_desc.Format;
     srv_desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -61,7 +61,7 @@ bool Texture::Initialize(ID3D11Device* device, ID3D11DeviceContext* deviceContex
     srv_desc.Texture2D.MipLevels = -1;
 
     // Create the shader resource view for the texture.
-    m_texture_view = create_shader_resource_view(device, m_texture, srv_desc);
+    m_texture_view = create_shader_resource_view(device, texture_, srv_desc);
 
     // Generate mipmaps for this texture.
     deviceContext->GenerateMips(m_texture_view);
