@@ -2,7 +2,7 @@
 
 void Timer::start()
 {
-    if(!started_)
+    if ( !started_ )
     {
         lastMeasured_ = Clock::now();
         started_ = true;
@@ -11,13 +11,13 @@ void Timer::start()
 
 void Timer::update()
 {
-    if(started_)
+    if ( started_ )
     {
         totalTime_ += Clock::now() - lastMeasured_;
     }
 }
 
-void Timer::reset(Clock::duration dur)
+void Timer::reset( Clock::duration dur )
 {
     totalTime_ = dur;
     lastMeasured_ = Clock::now();
@@ -25,5 +25,5 @@ void Timer::reset(Clock::duration dur)
 
 float Timer::getInSeconds() const
 {
-    return float(totalTime_.count()) / Clock::period::den;
+    return float( totalTime_.count() ) / Clock::period::den;
 }

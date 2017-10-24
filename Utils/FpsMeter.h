@@ -16,11 +16,9 @@ private:
 
     Timer timer_;
     std::array<float, countLength_> frames_;
-    size_t counted_{0u};
-    size_t nextFrame_{0u};
+    size_t counted_{ 0u };
+    size_t nextFrame_{ 0u };
     mutable Timer::Clock::time_point lastChanged_{};
     mutable float fps_;
-
-
 };
 

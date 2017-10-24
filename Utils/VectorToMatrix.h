@@ -5,6 +5,6 @@
 namespace BallUtils
 {
 
-DirectX::XMMATRIX vectorToMatrix(const Vector&);
+DirectX::XMMATRIX vectorToMatrix( const Vector& );
 
-}
+} //namespace
