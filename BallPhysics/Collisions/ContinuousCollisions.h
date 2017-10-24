@@ -18,7 +18,7 @@ ContinuousCollisionCirclePointOccured continuousCollisionCirclePoint(
     const Vector& circleOrigin,
     float radius,
     const Vector& pointVelocity,
-    const Vector& circleVelocity);
+    const Vector& circleVelocity );
 
 ContinuousCollisionCirclePointOccured continuousCollisionCircleCircle(
     const Vector& circle1Origin,
@@ -26,9 +26,9 @@ ContinuousCollisionCirclePointOccured continuousCollisionCircleCircle(
     float radius1,
     float radius2,
     const Vector& circle1Velocity,
-    const Vector& circle2Velocity);
+    const Vector& circle2Velocity );
 
-float continuousCollisionCirclePointTime(const ContinuousCollisionCirclePointOccured& occuredResult);
+float continuousCollisionCirclePointTime( const ContinuousCollisionCirclePointOccured& occuredResult );
 
 struct ContinuousCollisionCircleLineOccured
 {
@@ -43,7 +43,7 @@ ContinuousCollisionCircleLineOccured continuousCollisionCircleLine(
     const Vector& circleOrigin,
     float radius,
     const Vector& lineVelocity,
-    const Vector& circleVelocity);
+    const Vector& circleVelocity );
 
 struct ContinuousCollisionCircleLineTime
 {
@@ -55,7 +55,7 @@ ContinuousCollisionCircleLineTime continuousCollisionCircleLineTime(
     const ContinuousCollisionCircleLineOccured& occured,
     const Vector& circleOrigin,
     const Vector& linePoint1Origin,
-    float radius);
+    float radius );
 
 Vector continuousCollisionCircleLinePoint(
     const Vector& linePoint1Origin,
@@ -65,11 +65,11 @@ Vector continuousCollisionCircleLinePoint(
     const Vector& circleVelocity,
     const ContinuousCollisionCircleLineTime& lineTime,
     Vector& r1,
-    Vector& r2);
+    Vector& r2 );
 
 bool continuousCollisionCircleLinePointOnTrack(
     const Vector& r1,
     const Vector& r2,
-    const Vector& collisionPoint);
+    const Vector& collisionPoint );
 
-}
+} //namespace

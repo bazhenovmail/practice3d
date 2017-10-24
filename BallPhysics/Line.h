@@ -9,9 +9,9 @@ class Line final
 {
 public:
     Line();
-	Line(const std::vector<Vector>& vertices);
+    Line( const std::vector<Vector>& vertices );
 
     std::vector<Vector> vertices_;
 };
 
-}
+} //namespace

@@ -3,10 +3,9 @@
 namespace BallPhysics
 {
 
-CircleMovementRectangle::CircleMovementRectangle(const Rectangle& circle, const ShapelessObject& obj, float dt)
+CircleMovementRectangle::CircleMovementRectangle( const Rectangle& circle, const ShapelessObject& obj, float dt )
 {
     Vector movement = obj.velocity * dt;
 }
 
-
-}//namespace BallPhysics
+} //namespace

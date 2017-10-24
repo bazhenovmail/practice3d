@@ -4,7 +4,7 @@
 namespace BallPhysics
 {
 
-bool rectangleIntersection(const Rectangle& rect1, const Vector& rect1Pos, const Rectangle& rect2, const Vector& rect2Pos);
+bool rectangleIntersection( const Rectangle& rect1, const Vector& rect1Pos, const Rectangle& rect2, const Vector& rect2Pos );
 
-}//namespace BallPhysics
+} //namespace
 

@@ -9,7 +9,7 @@ namespace BallPhysics
 class CircleMovementRectangle
 {
 public:
-    CircleMovementRectangle(const Rectangle&, const ShapelessObject&, float dt);
+    CircleMovementRectangle( const Rectangle&, const ShapelessObject&, float dt );
 };
 
-}//namespace BallPhysics
+} //namespace

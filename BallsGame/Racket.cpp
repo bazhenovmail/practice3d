@@ -35,7 +35,7 @@ void Racket::initialize(UI& ui,
 			if (!addedVertices[v - 1])
 			{
 				auto& vert = objFile.vertices[v - 1];
-				if (vert.z == 0.f && dot_product(Vector{ objFile.normals[n - 1].x, objFile.normals[n - 1].y }, Vector{ 0.f, 1.f }) > 0.f)
+				if (vert.z == 0.f && dotProduct(Vector{ objFile.normals[n - 1].x, objFile.normals[n - 1].y }, Vector{ 0.f, 1.f }) > 0.f)
 				{
 					originalLine.push_back(Vector{ vert.x, vert.y });
 					addedVertices[v - 1] = true;

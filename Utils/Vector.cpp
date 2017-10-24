@@ -42,7 +42,7 @@ Vector operator/(const Vector & vec, float div)
     return Vector{vec.x / div, vec.y / div};
 }
 
-float dot_product(const Vector & arg1, const Vector & arg2)
+float dotProduct(const Vector & arg1, const Vector & arg2)
 {
     return arg1.x * arg2.x + arg1.y * arg2.y;
 }

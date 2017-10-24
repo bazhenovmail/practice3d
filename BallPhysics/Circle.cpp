@@ -3,9 +3,9 @@
 namespace BallPhysics
 {
 
-Circle::Circle(float radius):
-    radius{radius}
+Circle::Circle( float radius ) :
+    radius{ radius }
 {
 }
 
-}
+} //namespace

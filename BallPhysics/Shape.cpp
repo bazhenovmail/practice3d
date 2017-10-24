@@ -86,4 +86,4 @@ CollisionResult Shape<Line>::collisionResult(const ShapelessObject& thisPos, con
     return CollisionResult();
 }
 
-} //namespace BallPhysics
+} //namespace

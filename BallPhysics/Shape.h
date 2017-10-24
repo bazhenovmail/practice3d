@@ -67,4 +67,4 @@ CollisionResult Shape<T>::collisionResult(const ShapelessObject& thisPos, const 
     return arg->collisionResult(argPos, shape, thisPos, maxT);
 }
 
-}
+} //namespace

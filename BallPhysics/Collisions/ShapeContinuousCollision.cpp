@@ -32,7 +32,7 @@ ShapeCollisionResult continuousCollisionCircleConvexPolygon(
     const Vector* polygonVertices,
     unsigned vertexNumber,
     bool closed,
-    const Vector& polygonVelocity)
+    const Vector& polygonVelocity )
 {
     struct PointData
     {
@@ -46,12 +46,12 @@ ShapeCollisionResult continuousCollisionCircleConvexPolygon(
         ContinuousCollisionCircleLineTime dt;
     };
 
-    assert(vertexNumber > 1);
-    auto lineNumber = vertexNumber - 1 * (!closed);
+    assert( vertexNumber > 1 );
+    auto lineNumber = vertexNumber - 1 * ( !closed );
 
-    std::unordered_map<unsigned, PointData> occuredPoint(vertexNumber);
-    std::unordered_map<unsigned, LineData> occuredLine(lineNumber);
-    for(unsigned i = 0; i < vertexNumber; i++)
+    std::unordered_map<unsigned, PointData> occuredPoint( vertexNumber );
+    std::unordered_map<unsigned, LineData> occuredLine( lineNumber );
+    for ( unsigned i = 0; i < vertexNumber; i++ )
     {
         ContinuousCollisionCirclePointOccured pointOccured =
             continuousCollisionCirclePoint(
@@ -59,113 +59,115 @@ ShapeCollisionResult continuousCollisionCircleConvexPolygon(
                 circleOrigin,
                 radius,
                 polygonVelocity,
-                circleVelocity);
-        if(pointOccured.occured)
+                circleVelocity );
+        if ( pointOccured.occured )
             occuredPoint[i].occured = pointOccured;
     }
-    for(unsigned i = 0; i < lineNumber; i++)
+    for ( unsigned i = 0; i < lineNumber; i++ )
     {
         ContinuousCollisionCircleLineOccured lineOccured =
             continuousCollisionCircleLine(
                 polygonVertices[i],
-                polygonVertices[(i + 1) % vertexNumber],
+                polygonVertices[( i + 1 ) % vertexNumber],
                 circleOrigin,
                 radius,
                 polygonVelocity,
-                circleVelocity);
-        if(lineOccured.occured)
+                circleVelocity );
+        if ( lineOccured.occured )
             occuredLine[i].occured = lineOccured;
     }
 
     struct TimeInfo
     {
-        TimeInfo(unsigned ind, bool isL): index{ind}, isLine{isL} {}
+        TimeInfo( unsigned ind, bool isL ) : index{ ind }, isLine{ isL }
+        {
+        }
 
         unsigned index;
         bool isLine;
     };
 
     std::vector<TimeInfo> timeInfo;
-    timeInfo.reserve(occuredPoint.size() + occuredLine.size());
-    unsigned timeInfoIndex{0};
-    for(auto& it : occuredPoint)
+    timeInfo.reserve( occuredPoint.size() + occuredLine.size() );
+    unsigned timeInfoIndex{ 0 };
+    for ( auto& it : occuredPoint )
     {
-        it.second.dt = continuousCollisionCirclePointTime(it.second.occured);
-        if(it.second.dt >= 0.)
+        it.second.dt = continuousCollisionCirclePointTime( it.second.occured );
+        if ( it.second.dt >= 0. )
         {
-            timeInfo.emplace_back(it.first, false);
+            timeInfo.emplace_back( it.first, false );
             timeInfoIndex++;
         }
     }
-    for(auto& it : occuredLine)
+    for ( auto& it : occuredLine )
     {
-        it.second.dt = continuousCollisionCircleLineTime(it.second.occured, circleOrigin, polygonVertices[it.first], radius);
-        if(it.second.dt.dt >= 0.)
+        it.second.dt = continuousCollisionCircleLineTime( it.second.occured, circleOrigin, polygonVertices[it.first], radius );
+        if ( it.second.dt.dt >= 0. )
         {
-            timeInfo.emplace_back(it.first, true);
+            timeInfo.emplace_back( it.first, true );
             timeInfoIndex++;
         }
     }
 
-    std::sort(timeInfo.begin(), timeInfo.end(), [&occuredPoint, &occuredLine](const TimeInfo& arg1, const TimeInfo& arg2)
+    std::sort( timeInfo.begin(), timeInfo.end(), [&occuredPoint, &occuredLine]( const TimeInfo& arg1, const TimeInfo& arg2 )
     {
         float dt1 = arg1.isLine ? occuredLine[arg1.index].dt.dt : occuredPoint[arg1.index].dt;
         float dt2 = arg2.isLine ? occuredLine[arg2.index].dt.dt : occuredPoint[arg2.index].dt;
         return dt1 < dt2;
-    });
+    } );
 
     ShapeCollisionResult result;
-    for(auto it = timeInfo.begin(); it != timeInfo.end() && !result.occured; it++)
+    for ( auto it = timeInfo.begin(); it != timeInfo.end() && !result.occured; it++ )
     {
-        if(it->isLine)
+        if ( it->isLine )
         {
             Vector r1, r2;
             result.dt = occuredLine[it->index].dt.dt;
-            if(result.dt > maxT)
+            if ( result.dt > maxT )
                 break;
             result.collisionPoint =
                 continuousCollisionCircleLinePoint(
                     polygonVertices[it->index],
-                    polygonVertices[(it->index + 1) % vertexNumber],
+                    polygonVertices[( it->index + 1 ) % vertexNumber],
                     circleOrigin,
                     polygonVelocity,
                     circleVelocity,
                     occuredLine[it->index].dt,
                     r1,
-                    r2);
-            result.occured = continuousCollisionCircleLinePointOnTrack(r1, r2, result.collisionPoint);
+                    r2 );
+            result.occured = continuousCollisionCircleLinePointOnTrack( r1, r2, result.collisionPoint );
         }
         else
         {
             result.dt = occuredPoint[it->index].dt;
-            if(result.dt > maxT)
+            if ( result.dt > maxT )
                 break;
             result.occured = true;
             result.collisionPoint = polygonVertices[it->index];
         }
     }
-    assert(!result.occured || result.dt >= 0.);
+    assert( !result.occured || result.dt >= 0. );
     return result;
 }
 
-CollisionResult collision(const Circle& circle, const Rectangle& rect, const ShapelessObject& circlePos, const ShapelessObject& rectPos, float maxT)
+CollisionResult collision( const Circle& circle, const Rectangle& rect, const ShapelessObject& circlePos, const ShapelessObject& rectPos, float maxT )
 {
-    auto circleBoundary = boundingVolume(circle, circlePos, maxT);
-    auto rectBoundary = boundingVolume(rect, rectPos, maxT);
+    auto circleBoundary = boundingVolume( circle, circlePos, maxT );
+    auto rectBoundary = boundingVolume( rect, rectPos, maxT );
 
-    bool collisionPossible = rectangleIntersection(circleBoundary.first, circleBoundary.second, rectBoundary.first, rectBoundary.second);
-    if(!collisionPossible)
+    bool collisionPossible = rectangleIntersection( circleBoundary.first, circleBoundary.second, rectBoundary.first, rectBoundary.second );
+    if ( !collisionPossible )
     {
         return CollisionResult{};
     }
 
     std::array<Vector, 4u> vertices{
-        Vector(rectPos.position.x - rect.width / 2, rectPos.position.y + rect.height / 2),
-        Vector(rectPos.position.x + rect.width / 2, rectPos.position.y + rect.height / 2),
-        Vector(rectPos.position.x + rect.width / 2, rectPos.position.y - rect.height / 2),
-        Vector(rectPos.position.x - rect.width / 2, rectPos.position.y - rect.height / 2)};
-	if (rect.hollow)
-		std::reverse(vertices.begin(), vertices.end());
+        Vector( rectPos.position.x - rect.width / 2, rectPos.position.y + rect.height / 2 ),
+        Vector( rectPos.position.x + rect.width / 2, rectPos.position.y + rect.height / 2 ),
+        Vector( rectPos.position.x + rect.width / 2, rectPos.position.y - rect.height / 2 ),
+        Vector( rectPos.position.x - rect.width / 2, rectPos.position.y - rect.height / 2 ) };
+    if ( rect.hollow )
+        std::reverse( vertices.begin(), vertices.end() );
     ShapeCollisionResult almostResult =
         continuousCollisionCircleConvexPolygon(
             circlePos.position,
@@ -175,24 +177,24 @@ CollisionResult collision(const Circle& circle, const Rectangle& rect, const Sha
             vertices.data(),
             4,
             true,
-            rectPos.velocity);
+            rectPos.velocity );
     CollisionResult result;
     result.dt = almostResult.dt;
     result.occured = almostResult.occured;
-    if(almostResult.occured)
+    if ( almostResult.occured )
     {
         Vector relativeVelocity = circlePos.velocity - rectPos.velocity;
-        result.normal = (almostResult.collisionPoint - (circlePos.position + circlePos.velocity * almostResult.dt)) * (1 / circle.radius);
+        result.normal = ( almostResult.collisionPoint - ( circlePos.position + circlePos.velocity * almostResult.dt ) ) * ( 1 / circle.radius );
     }
 
-    assert(!result.occured || result.dt >= 0.);
+    assert( !result.occured || result.dt >= 0. );
     return result;
 }
 
-CollisionResult collision(const Circle& circle, const Line& line, const ShapelessObject& circlePos, const ShapelessObject& linePos, float maxT)
+CollisionResult collision( const Circle& circle, const Line& line, const ShapelessObject& circlePos, const ShapelessObject& linePos, float maxT )
 {
-    std::vector<Vector> vertices(line.vertices_.size());
-    for(unsigned i = 0; i < line.vertices_.size(); i++)
+    std::vector<Vector> vertices( line.vertices_.size() );
+    for ( unsigned i = 0; i < line.vertices_.size(); i++ )
     {
         vertices[i] = line.vertices_[i] + linePos.position;
     }
@@ -203,23 +205,23 @@ CollisionResult collision(const Circle& circle, const Line& line, const Shapeles
             circle.radius,
             maxT,
             vertices.data(),
-			line.vertices_.size(),
+            line.vertices_.size(),
             false,
-            linePos.velocity);
+            linePos.velocity );
     CollisionResult result;
     result.dt = almostResult.dt;
     result.occured = almostResult.occured;
-    if(almostResult.occured)
+    if ( almostResult.occured )
     {
         Vector relativeVelocity = circlePos.velocity - linePos.velocity;
-        result.normal = (almostResult.collisionPoint - (circlePos.position + circlePos.velocity * almostResult.dt)) * (1 / circle.radius);
+        result.normal = ( almostResult.collisionPoint - ( circlePos.position + circlePos.velocity * almostResult.dt ) ) * ( 1 / circle.radius );
     }
 
-    assert(!result.occured || result.dt > 0.);
+    assert( !result.occured || result.dt > 0. );
     return result;
 }
 
-CollisionResult collision(const Circle & circle1, const Circle & circle2, const ShapelessObject & circle1Pos, const ShapelessObject & circle2Pos, float maxT)
+CollisionResult collision( const Circle & circle1, const Circle & circle2, const ShapelessObject & circle1Pos, const ShapelessObject & circle2Pos, float maxT )
 {
     ContinuousCollisionCirclePointOccured pointOccured =
         continuousCollisionCircleCircle(
@@ -228,24 +230,22 @@ CollisionResult collision(const Circle & circle1, const Circle & circle2, const 
             circle1.radius,
             circle2.radius,
             circle1Pos.velocity,
-            circle2Pos.velocity);
+            circle2Pos.velocity );
 
     CollisionResult result;
 
-    if(pointOccured.occured)
+    if ( pointOccured.occured )
     {
-        result.dt = continuousCollisionCirclePointTime(pointOccured);
-        if(result.dt < maxT && result.dt >= 0.)
+        result.dt = continuousCollisionCirclePointTime( pointOccured );
+        if ( result.dt < maxT && result.dt >= 0. )
         {
             result.occured = true;
-            result.normal = ((circle2Pos.position + circle2Pos.velocity * result.dt) - (circle1Pos.position + circle1Pos.velocity * result.dt))
-                * (1 / (circle1.radius + circle2.radius));
-            //Vector collisionPoint = (circle1Pos.position + circle1Pos.velocity * dt) * circle2.radius +
-            //    (circle2Pos.position + circle2Pos.velocity * dt) * circle1.radius;
+            result.normal = ( ( circle2Pos.position + circle2Pos.velocity * result.dt ) - ( circle1Pos.position + circle1Pos.velocity * result.dt ) )
+                * ( 1 / ( circle1.radius + circle2.radius ) );
         }
     }
 
     return result;
 }
 
-}
+} //namespace

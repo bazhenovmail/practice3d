@@ -19,5 +19,5 @@ Vector operator - (const Vector& arg1, const Vector& arg2);
 Vector operator * (const Vector& vec, float mul);
 Vector operator * (float mul, const Vector& vec);
 Vector operator / (const Vector& vec, float mul);
-float dot_product(const Vector& arg1, const Vector& arg2);
+float dotProduct(const Vector& arg1, const Vector& arg2);
 

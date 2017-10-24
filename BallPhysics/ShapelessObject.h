@@ -11,4 +11,4 @@ struct ShapelessObject
     float mass;
 };
 
-} //namespace BallPhysics
+} //namespace
