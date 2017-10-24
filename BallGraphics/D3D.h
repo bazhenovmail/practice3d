@@ -14,8 +14,8 @@ class D3D
 public:
 
     void initialize(
-        int screen_width,
-        int screen_height,
+        int screenWidth,
+        int screenHeight,
         bool vsync,
         HWND hwnd,
         bool fullScreen );

@@ -1,7 +1,7 @@
 #include "Mode.h"
 
-void Mode::initialize(UI& ui, BallInput::Input& input) noexcept
+void Mode::initialize( UI& ui, BallInput::Input& input ) noexcept
 {
-	ui_ = &ui;
+    ui_ = &ui;
     input_ = &input;
 }

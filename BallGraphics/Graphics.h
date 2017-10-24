@@ -35,8 +35,8 @@ public:
     };
 
     Graphics();
-    void initialize( int screen_width,
-                     int screen_height,
+    void initialize( int screenWidth,
+                     int screenHeight,
                      bool vsync,
                      HWND hwnd,
                      bool full_screen );

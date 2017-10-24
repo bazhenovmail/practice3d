@@ -10,9 +10,9 @@ class Input;
 class Mode
 {
 public:
-    void initialize(UI&, BallInput::Input&) noexcept;
+    void initialize( UI&, BallInput::Input& ) noexcept;
 protected:
-	UI* ui_;
+    UI* ui_;
     BallInput::Input* input_;
 };
 

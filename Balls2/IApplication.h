@@ -20,7 +20,9 @@ namespace Balls
 
 struct FrameResult
 {
-    FrameResult(bool fin, float t): running{fin}, dt{t} {}
+    FrameResult( bool fin, float t ) : running{ fin }, dt{ t }
+    {
+    }
     bool running;
     float dt;
 };
@@ -28,13 +30,15 @@ struct FrameResult
 class IApplication
 {
 public:
-    virtual ~IApplication() {};
+    virtual ~IApplication()
+    {
+    };
 
     virtual Params getParams() const = 0;
-    virtual void initialize(BallPhysics::World&, UI&, BallInput::Input&) noexcept = 0;
+    virtual void initialize( BallPhysics::World&, UI&, BallInput::Input& ) noexcept = 0;
     virtual FrameResult frame() = 0;
 };
 
 extern IApplication& getApplication();
 
-}//Balls
+} //namespace
