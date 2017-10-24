@@ -5,12 +5,12 @@
 namespace BallGraphics
 {
 
-class UICamera: public Camera
+class UICamera : public Camera
 {
 public:
-	void initialize(float screenWidth, float screenHeight, float screenNear, float screenDepth) noexcept;
+    void initialize( float screenWidth, float screenHeight, float screenNear, float screenDepth ) noexcept;
 
-	virtual void render() noexcept override;
+    virtual void render() noexcept override;
 };
 
-}//namespace BallGraphics
+} //namespace

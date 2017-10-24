@@ -6,77 +6,87 @@ using namespace BallUtils;
 namespace BallGraphics
 {
 
-Effect::Effect(const wchar_t* vs_file_name, const wchar_t* ps_file_name) noexcept:
-	m_vs_file_name(vs_file_name), m_ps_file_name(ps_file_name){}
-
-Effect::~Effect(){}
-
-void Effect::initialize(const D3D& d3d) noexcept
+Effect::Effect( const wchar_t* vertexShaderFileName, const wchar_t* pixelShaderFileName ) noexcept:
+vsFileName_( vertexShaderFileName ), psFileName_( pixelShaderFileName )
 {
-	d3d_ = &d3d;
-    std::vector<char> ps_data, vs_data;
-    bool ok = readFile(m_ps_file_name, ps_data);
-    assert(ok == true);
-    ok = readFile(m_vs_file_name, vs_data);
-    assert(ok == true);
+}
 
-    ID3D11VertexShader* tmp_vert_sh;
+Effect::~Effect()
+{
+}
+
+void Effect::initialize( const D3D& d3d ) noexcept
+{
+    d3d_ = &d3d;
+    std::vector<char> psData, vsData;
+    bool ok = readFile( psFileName_, psData );
+    assert( ok == true );
+    ok = readFile( vsFileName_, vsData );
+    assert( ok == true );
+
+    ID3D11VertexShader* tmpVertShader;
     HRESULT hresult = d3d_->getDevice()->CreateVertexShader(
-        vs_data.data(),
-        vs_data.size(),
+        vsData.data(),
+        vsData.size(),
         nullptr,
-        &tmp_vert_sh
-        );
-    assert(hresult == S_OK);
-    m_vertex_shader = tmp_vert_sh;
+        &tmpVertShader
+    );
+    assert( hresult == S_OK );
+    vertexShader_ = tmpVertShader;
 
-    ID3D11PixelShader* tmp_pix_sh;
+    ID3D11PixelShader* tmpPixShader;
     hresult = d3d_->getDevice()->CreatePixelShader(
-        ps_data.data(),
-        ps_data.size(),
+        psData.data(),
+        psData.size(),
         nullptr,
-        &tmp_pix_sh
-        );
-    assert(hresult == S_OK);
-    m_pixel_shader = tmp_pix_sh;
+        &tmpPixShader
+    );
+    assert( hresult == S_OK );
+    pixelShader_ = tmpPixShader;
 
-    create_input_layout(vs_data);
+    createInputLayout_( vsData );
 }
 
-ComPtr<ID3D11Buffer> Effect::create_buffer(const D3D11_BUFFER_DESC & desc){
-    ID3D11Buffer* tmp_ptr;
-    HRESULT result = d3d_->getDevice()->CreateBuffer(&desc, NULL, &tmp_ptr);
-    assert(result == S_OK);
-    assert(tmp_ptr != nullptr);
-    return ComPtr<ID3D11Buffer>(tmp_ptr);
+ComPtr<ID3D11Buffer> Effect::createBuffer( const D3D11_BUFFER_DESC & desc )
+{
+    ID3D11Buffer* pointer;
+    HRESULT result = d3d_->getDevice()->CreateBuffer( &desc, NULL, &pointer );
+    assert( result == S_OK );
+    assert( pointer != nullptr );
+    return ComPtr<ID3D11Buffer>( pointer );
 }
 
-ComPtr<ID3D11SamplerState> Effect::create_sampler_state(const D3D11_SAMPLER_DESC & desc){
-    ID3D11SamplerState* tmp_ptr;
-    HRESULT result = d3d_->getDevice()->CreateSamplerState(&desc, &tmp_ptr);
-    assert(result == S_OK);
-    assert(tmp_ptr != nullptr);
-    return ComPtr<ID3D11SamplerState>(tmp_ptr);
+ComPtr<ID3D11SamplerState> Effect::createSamplerState( const D3D11_SAMPLER_DESC & desc )
+{
+    ID3D11SamplerState* pointer;
+    HRESULT result = d3d_->getDevice()->CreateSamplerState( &desc, &pointer );
+    assert( result == S_OK );
+    assert( pointer != nullptr );
+    return ComPtr<ID3D11SamplerState>( pointer );
 }
 
-void Effect::finalize_render(UINT index_count){
-    d3d_->getDeviceContext()->IASetInputLayout((ID3D11InputLayout*)m_layout);
+void Effect::finalizeRender_( UINT index_count )
+{
+    d3d_->getDeviceContext()->IASetInputLayout( (ID3D11InputLayout*) layout_ );
 
-    d3d_->getDeviceContext()->VSSetShader((ID3D11VertexShader*)m_vertex_shader, NULL, 0);
-    d3d_->getDeviceContext()->PSSetShader((ID3D11PixelShader*)m_pixel_shader, NULL, 0);
+    d3d_->getDeviceContext()->VSSetShader( (ID3D11VertexShader*) vertexShader_, NULL, 0 );
+    d3d_->getDeviceContext()->PSSetShader( (ID3D11PixelShader*) pixelShader_, NULL, 0 );
 
-    d3d_->getDeviceContext()->DrawIndexed(index_count, 0, 0);
+    d3d_->getDeviceContext()->DrawIndexed( index_count, 0, 0 );
 }
 
-void Effect::shutdown(){}
-
-void Effect::create_input_layout(const std::vector<char>& vs_data){
-    auto polygonLayout = input_layout();
-    ID3D11InputLayout* tmp_layout;
-    HRESULT result = d3d_->getDevice()->CreateInputLayout(polygonLayout.data(), polygonLayout.size(), vs_data.data(),
-                                               vs_data.size(), &tmp_layout);
-    assert(result == S_OK);
-    m_layout = tmp_layout;
+void Effect::shutdown()
+{
 }
 
-}//BallGraphics
+void Effect::createInputLayout_( const std::vector<char>& vs_data )
+{
+    auto polygonLayout = inputLayout_();
+    ID3D11InputLayout* tmpLayout;
+    HRESULT result = d3d_->getDevice()->CreateInputLayout( polygonLayout.data(), polygonLayout.size(), vs_data.data(),
+                                                           vs_data.size(), &tmpLayout );
+    assert( result == S_OK );
+    layout_ = tmpLayout;
+}
+
+} //namespace

@@ -8,55 +8,58 @@ namespace BallGraphics
 {
 
 EffectColor::EffectColor() noexcept:
-    Effect(L"ColorVS.cso", L"ColorPS.cso"){}
-
-EffectColor::~EffectColor(){}
-
-void EffectColor::initialize(const D3D& d3d) noexcept
+Effect( L"ColorVS.cso", L"ColorPS.cso" )
 {
-    __super::initialize(d3d);
+}
 
-    D3D11_BUFFER_DESC matrix_buffer_desc;
-    matrix_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
-    matrix_buffer_desc.ByteWidth = sizeof(MatrixBufferType);
-    matrix_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    matrix_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    matrix_buffer_desc.MiscFlags = 0;
-    matrix_buffer_desc.StructureByteStride = 0;
+EffectColor::~EffectColor()
+{
+}
 
-    matrixBuffer_ = create_buffer(matrix_buffer_desc);
+void EffectColor::initialize( const D3D& d3d ) noexcept
+{
+    __super::initialize( d3d );
+
+    D3D11_BUFFER_DESC matrixBufferDesc;
+    matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    matrixBufferDesc.ByteWidth = sizeof( MatrixBufferType );
+    matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    matrixBufferDesc.MiscFlags = 0;
+    matrixBufferDesc.StructureByteStride = 0;
+
+    matrixBuffer_ = createBuffer( matrixBufferDesc );
 }
 
 std::unique_ptr<ColorMesh> EffectColor::createMesh() noexcept
 {
-	return std::unique_ptr<ColorMesh>(new ColorMesh(*d3d_, *this));
+    return std::unique_ptr<ColorMesh>( new ColorMesh( *d3d_, *this ) );
 }
 
-void EffectColor::setParameters(const MatrixBufferType& params)
+void EffectColor::setParameters( const MatrixBufferType& params )
 {
-    D3D11_MAPPED_SUBRESOURCE mapped_resource;
+    {
+        MappedResource<MatrixBufferType> mapped( d3d_->getDeviceContext(), matrixBuffer_ );
+        mapped->world = XMMatrixTranspose( params.world );
+        mapped->view = XMMatrixTranspose( params.view );
+        mapped->projection = XMMatrixTranspose( params.projection );
+    }
 
-	{
-		MappedResource<MatrixBufferType> mapped(d3d_->getDeviceContext(), matrixBuffer_);
-		mapped->world = XMMatrixTranspose(params.world);
-		mapped->view = XMMatrixTranspose(params.view);
-		mapped->projection = XMMatrixTranspose(params.projection);
-	}
-
-    unsigned buffer_index = 0;
+    unsigned bufferIndex = 0;
     ID3D11Buffer *const mb = matrixBuffer_;
-	d3d_->getDeviceContext()->VSSetConstantBuffers(buffer_index, 1, &mb);
+    d3d_->getDeviceContext()->VSSetConstantBuffers( bufferIndex, 1, &mb );
 }
 
-void EffectColor::render(UINT index_count, const MatrixBufferType& params)
+void EffectColor::render( UINT index_count, const MatrixBufferType& params )
 {
-	setParameters(params);
-    finalize_render(index_count);
+    setParameters( params );
+    finalizeRender_( index_count );
 }
 
-std::vector<D3D11_INPUT_ELEMENT_DESC> EffectColor::input_layout() const
+std::vector<D3D11_INPUT_ELEMENT_DESC> EffectColor::inputLayout_() const
 {
-    return std::vector<D3D11_INPUT_ELEMENT_DESC>{
+    return std::vector<D3D11_INPUT_ELEMENT_DESC>
+    {
         {
             "POSITION",
             0,
@@ -78,4 +81,4 @@ std::vector<D3D11_INPUT_ELEMENT_DESC> EffectColor::input_layout() const
     };
 }
 
-}
+} //namespace

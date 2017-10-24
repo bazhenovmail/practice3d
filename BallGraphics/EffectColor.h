@@ -8,28 +8,28 @@ namespace BallGraphics
 
 class ColorMesh;
 
-class EffectColor: public Effect
+class EffectColor : public Effect
 {
 public:
     EffectColor() noexcept;
     ~EffectColor();
 
-	struct MatrixBufferType
-	{
-		DirectX::XMMATRIX world;
-		DirectX::XMMATRIX view;
-		DirectX::XMMATRIX projection;
-	};
+    struct MatrixBufferType
+    {
+        DirectX::XMMATRIX world;
+        DirectX::XMMATRIX view;
+        DirectX::XMMATRIX projection;
+    };
 
-	std::unique_ptr<ColorMesh> createMesh() noexcept;
+    std::unique_ptr<ColorMesh> createMesh() noexcept;
 
-    void initialize(const D3D& d3d) noexcept override;
-    void setParameters(const MatrixBufferType& params);
-    void render(UINT index_count, const MatrixBufferType& params);
+    void initialize( const D3D& d3d ) noexcept override;
+    void setParameters( const MatrixBufferType& params );
+    void render( UINT index_count, const MatrixBufferType& params );
 protected:
-    std::vector<D3D11_INPUT_ELEMENT_DESC> input_layout() const override;
+    std::vector<D3D11_INPUT_ELEMENT_DESC> inputLayout_() const override;
 private:
-	BallUtils::ComPtr<ID3D11Buffer> matrixBuffer_{ nullptr };
+    BallUtils::ComPtr<ID3D11Buffer> matrixBuffer_{ nullptr };
 };
 
-}//BallGraphics
+} //namespace

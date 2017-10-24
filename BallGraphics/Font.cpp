@@ -5,25 +5,25 @@
 namespace BallGraphics
 {
 
-bool Font::load(const std::string& fileName)
+bool Font::load( const std::string& fileName )
 {
     std::ifstream fin;
 
-    fin.open(fileName);
-    assert(!fin.fail());
+    fin.open( fileName );
+    assert( !fin.fail() );
 
     char temp;
-    for(unsigned i = 0; i < fontSize_; i++)
+    for ( unsigned i = 0; i < fontSize_; i++ )
     {
-        fin.get(temp);
-        while(temp != ' ')
+        fin.get( temp );
+        while ( temp != ' ' )
         {
-            fin.get(temp);
+            fin.get( temp );
         }
-        fin.get(temp);
-        while(temp != ' ')
+        fin.get( temp );
+        while ( temp != ' ' )
         {
-            fin.get(temp);
+            fin.get( temp );
         }
 
         fin >> font_[i].left;
@@ -35,14 +35,13 @@ bool Font::load(const std::string& fileName)
     return true;
 }
 
-std::pair<bool, Font::FontType> Font::getData(wchar_t symbol) const noexcept
+std::pair<bool, Font::FontType> Font::getData( wchar_t symbol ) const noexcept
 {
-    if(symbol <= diff_ || symbol > diff_ + fontSize_)
+    if ( symbol <= diff_ || symbol > diff_ + fontSize_ )
     {
-        return{false, FontType()};
+        return{ false, FontType() };
     }
-    return{true, font_[symbol - diff_]};
+    return{ true, font_[symbol - diff_] };
 }
 
-
-}//namespace BallGraphics
+} //namespace

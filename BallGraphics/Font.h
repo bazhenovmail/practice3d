@@ -14,8 +14,8 @@ public:
         int size;
     };
 
-    bool load(const std::string& fileName);
-    std::pair<bool, FontType> getData(wchar_t symbol) const noexcept;
+    bool load( const std::string& fileName );
+    std::pair<bool, FontType> getData( wchar_t symbol ) const noexcept;
 
 private:
     static constexpr size_t fontSize_ = 95;
@@ -24,4 +24,4 @@ private:
 
 };
 
-}//namespace BallGraphics
+} //namespace

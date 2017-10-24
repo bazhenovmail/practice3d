@@ -8,99 +8,105 @@ namespace BallGraphics
 {
 
 EffectText::EffectText() noexcept:
-    Effect(L"TextVS.cso", L"TextPS.cso"){}
-
-EffectText::~EffectText(){}
-
-std::unique_ptr<TextMesh> EffectText::createMesh(Texture& texture, Font & font) noexcept
+Effect( L"TextVS.cso", L"TextPS.cso" )
 {
-	return std::unique_ptr<TextMesh>(new TextMesh(*d3d_, *this, texture, font));
 }
 
-void EffectText::initialize(const D3D& d3d) noexcept
+EffectText::~EffectText()
 {
-    __super::initialize(d3d);
+}
+
+std::unique_ptr<TextMesh> EffectText::createMesh( Texture& texture, Font & font ) noexcept
+{
+    return std::unique_ptr<TextMesh>( new TextMesh( *d3d_, *this, texture, font ) );
+}
+
+void EffectText::initialize( const D3D& d3d ) noexcept
+{
+    __super::initialize( d3d );
 
     {
         D3D11_BUFFER_DESC matrixBufferDesc;
         matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-        matrixBufferDesc.ByteWidth = sizeof(MatrixBufferType);
+        matrixBufferDesc.ByteWidth = sizeof( MatrixBufferType );
         matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         matrixBufferDesc.MiscFlags = 0;
         matrixBufferDesc.StructureByteStride = 0;
 
-        matrixBuffer_ = create_buffer(matrixBufferDesc);
+        matrixBuffer_ = createBuffer( matrixBufferDesc );
     }
 
     {
         D3D11_BUFFER_DESC bufferDesc;
         bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-        bufferDesc.ByteWidth = sizeof(ColorBufferType);
+        bufferDesc.ByteWidth = sizeof( ColorBufferType );
         bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
         bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
         bufferDesc.MiscFlags = 0;
         bufferDesc.StructureByteStride = 0;
 
-        colorBuffer_ = create_buffer(bufferDesc);
+        colorBuffer_ = createBuffer( bufferDesc );
     }
 
-    D3D11_SAMPLER_DESC sampler_desc;
+    D3D11_SAMPLER_DESC samplerDesc;
 
-    sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampler_desc.MipLODBias = 0.0f;
-    sampler_desc.MaxAnisotropy = 1;
-    sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-    sampler_desc.BorderColor[0] = 0;
-    sampler_desc.BorderColor[1] = 0;
-    sampler_desc.BorderColor[2] = 0;
-    sampler_desc.BorderColor[3] = 0;
-    sampler_desc.MinLOD = 0;
-    sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+    samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDesc.MipLODBias = 0.0f;
+    samplerDesc.MaxAnisotropy = 1;
+    samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+    samplerDesc.BorderColor[0] = 0;
+    samplerDesc.BorderColor[1] = 0;
+    samplerDesc.BorderColor[2] = 0;
+    samplerDesc.BorderColor[3] = 0;
+    samplerDesc.MinLOD = 0;
+    samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-    m_sampler_state = create_sampler_state(sampler_desc);
+    samplerState_ = createSamplerState( samplerDesc );
 }
 
-void EffectText::setParameters(const MatrixBufferType& params, ID3D11ShaderResourceView* texture, const DirectX::XMVECTOR& color)
+void EffectText::setParameters( const MatrixBufferType& params, ID3D11ShaderResourceView* texture, const DirectX::XMVECTOR& color )
 {
-	{
-		MappedResource<MatrixBufferType> mapped(d3d_->getDeviceContext(), matrixBuffer_);
-		mapped->world = XMMatrixTranspose(params.world);
-		mapped->view = XMMatrixTranspose(params.view);
-		mapped->projection = XMMatrixTranspose(params.projection);
-	}
-
-	{
-		MappedResource<ColorBufferType> mapped(d3d_->getDeviceContext(), colorBuffer_);
-		mapped->color = color;
-	}
+    {
+        MappedResource<MatrixBufferType> mapped( d3d_->getDeviceContext(), matrixBuffer_ );
+        mapped->world = XMMatrixTranspose( params.world );
+        mapped->view = XMMatrixTranspose( params.view );
+        mapped->projection = XMMatrixTranspose( params.projection );
+    }
 
     {
-        unsigned buffer_index = 0;
+        MappedResource<ColorBufferType> mapped( d3d_->getDeviceContext(), colorBuffer_ );
+        mapped->color = color;
+    }
+
+    {
+        unsigned bufferIndex = 0;
         ID3D11Buffer *const mb = matrixBuffer_;
-        d3d_->getDeviceContext()->VSSetConstantBuffers(buffer_index, 1, &mb);
+        d3d_->getDeviceContext()->VSSetConstantBuffers( bufferIndex, 1, &mb );
     }
 
     {
-        unsigned buffer_index = 0;
+        unsigned bufferIndex = 0;
         ID3D11Buffer *const buff = colorBuffer_;
-        d3d_->getDeviceContext()->PSSetConstantBuffers(buffer_index, 1, &buff);
+        d3d_->getDeviceContext()->PSSetConstantBuffers( bufferIndex, 1, &buff );
     }
 
-    d3d_->getDeviceContext()->PSSetShaderResources(0, 1, &texture);
+    d3d_->getDeviceContext()->PSSetShaderResources( 0, 1, &texture );
 }
 
-void EffectText::render(UINT index_count, const MatrixBufferType& params, ID3D11ShaderResourceView* texture, const DirectX::XMVECTOR& color)
+void EffectText::render( UINT indexCount, const MatrixBufferType& params, ID3D11ShaderResourceView* texture, const DirectX::XMVECTOR& color )
 {
-    setParameters(params, texture, color);
-    finalize_render(index_count);
+    setParameters( params, texture, color );
+    finalizeRender_( indexCount );
 }
 
-std::vector<D3D11_INPUT_ELEMENT_DESC> EffectText::input_layout() const{
-    return std::vector<D3D11_INPUT_ELEMENT_DESC>{
+std::vector<D3D11_INPUT_ELEMENT_DESC> EffectText::inputLayout_() const
+{
+    return std::vector<D3D11_INPUT_ELEMENT_DESC>
+    {
         {
             "POSITION",
             0,
@@ -122,4 +128,4 @@ std::vector<D3D11_INPUT_ELEMENT_DESC> EffectText::input_layout() const{
     };
 }
 
-}
+} //namespace

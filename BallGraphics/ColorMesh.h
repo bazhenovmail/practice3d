@@ -39,7 +39,7 @@ public:
 
     virtual void render( const GetWorldFunc& worldFunc, const Camera* camera ) noexcept override;
 
-    UINT get_index_count();
+    UINT getIndexCount();
 
     void load( float width, float height, float depth, float ir, float ig, float ib, float ia );
     void load( const Vector& cPoint, const std::vector<Vector>& points, float depth, float ir, float ig, float ib, float ia );

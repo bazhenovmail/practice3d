@@ -40,7 +40,7 @@ public:
 
     virtual void render( const GetWorldFunc& worldFunc, const Camera* camera ) noexcept override;
 
-    UINT get_index_count();
+    UINT getIndexCount();
 
     bool load( const ObjFile& objFile, float mul = 1.f ) noexcept;
     bool load( const ObjFile& objFile, const std::function<Position( float, float, float )>& ) noexcept;
