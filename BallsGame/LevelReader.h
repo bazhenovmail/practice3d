@@ -2,4 +2,4 @@
 
 #include "Level.h"
 
-Level readLevel(const std::string& fileName);
+Level readLevel( const std::string& fileName );

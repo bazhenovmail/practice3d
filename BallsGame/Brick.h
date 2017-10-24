@@ -14,4 +14,4 @@ public:
 	unsigned durability{ 0 };
 };
 
-}//namespace BallsGame
+} //namespace

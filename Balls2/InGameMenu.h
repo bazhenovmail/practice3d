@@ -6,10 +6,10 @@
 class InGameMenu
 {
 public:
-    void initialize(UI&,
-                    BallInput::Input&,
-                    std::function<void()> onResume,
-                    std::function<void()> onExit) noexcept;
+    void initialize( UI&,
+                     BallInput::Input&,
+                     std::function<void()> onResume,
+                     std::function<void()> onExit ) noexcept;
 
     void enter();
 private:

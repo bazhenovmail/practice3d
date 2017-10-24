@@ -3,5 +3,4 @@
 namespace BallsGame
 {
 
-
-}//namespace BallsGame
+} //namespace

@@ -5,57 +5,57 @@
 
 std::unordered_map<char, LevelBrickContent> contentMap
 {
-	{ '.', LevelBrickContent::None },
-	{ 'O', LevelBrickContent::BallSizePlus },
-	{ 'o', LevelBrickContent::BallSizeMinus },
-	{ 'W', LevelBrickContent::RacketWidthPlus },
-	{ 'w', LevelBrickContent::RacketWidthMinus },
-	{ '*', LevelBrickContent::Fireball },
-	{ 'B', LevelBrickContent::BallPlus },
-	{ 'H', LevelBrickContent::HPPlus },
-	{ 'h', LevelBrickContent::HPMinus },
+    { '.', LevelBrickContent::None },
+    { 'O', LevelBrickContent::BallSizePlus },
+    { 'o', LevelBrickContent::BallSizeMinus },
+    { 'W', LevelBrickContent::RacketWidthPlus },
+    { 'w', LevelBrickContent::RacketWidthMinus },
+    { '*', LevelBrickContent::Fireball },
+    { 'B', LevelBrickContent::BallPlus },
+    { 'H', LevelBrickContent::HPPlus },
+    { 'h', LevelBrickContent::HPMinus },
 };
 
-Level readLevel(const std::string& fileName)
+Level readLevel( const std::string& fileName )
 {
-	std::ifstream file(fileName);
-	assert(file.is_open());
+    std::ifstream file( fileName );
+    assert( file.is_open() );
 
-	Level result;
+    Level result;
 
-	assert(file.good());
-	file >> result.width;
-	assert(file.good());
-	file >> result.height;
+    assert( file.good() );
+    file >> result.width;
+    assert( file.good() );
+    file >> result.height;
 
-	result.bricks.resize(result.width * result.height);
-	
-	char ch;
-	for (size_t i = 0; i < result.width * result.height; )
-	{
-		assert(file.good());
-		file >> ch;
+    result.bricks.resize( result.width * result.height );
 
-		if (ch != '.')
-		{
-			assert(ch >= '0' && ch <= '9');
-			result.bricks[i].durability = ch - '0';
-		}
+    char ch;
+    for ( size_t i = 0; i < result.width * result.height; )
+    {
+        assert( file.good() );
+        file >> ch;
 
-		assert(file.good());
-		file >> ch;
-		auto it = contentMap.find(ch);
-		assert(it != contentMap.end());
-		if (result.bricks[i].durability == 0)
-		{
-			assert(it->second == LevelBrickContent::None);
-		}
-		result.bricks[i].content = it->second;
+        if ( ch != '.' )
+        {
+            assert( ch >= '0' && ch <= '9' );
+            result.bricks[i].durability = ch - '0';
+        }
 
-		i++;
-	}
-	file >> ch;
-	assert(file.eof());
+        assert( file.good() );
+        file >> ch;
+        auto it = contentMap.find( ch );
+        assert( it != contentMap.end() );
+        if ( result.bricks[i].durability == 0 )
+        {
+            assert( it->second == LevelBrickContent::None );
+        }
+        result.bricks[i].content = it->second;
 
-	return result;
+        i++;
+    }
+    file >> ch;
+    assert( file.eof() );
+
+    return result;
 }
